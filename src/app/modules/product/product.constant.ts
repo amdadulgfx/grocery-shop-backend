@@ -18,6 +18,7 @@ export const productFilterableFields = [
     'brand',
     'description',
     'type',
+    'status'
     // 'category',
     // 'subcategory',
   ];

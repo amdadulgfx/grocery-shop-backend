@@ -117,11 +117,21 @@ const getSearchProduct = async (filters: IProductsFilters, paginationOptions: IP
         paginationHelper.calculatePagination(paginationOptions);
 
     const andConditions = [];
-    if (searchTerm) {
+    if (searchTerm !== '27') {
         andConditions.push({
             $or: productSearchableFields.map(field => ({
                 [field]: {
                     $regex: searchTerm,
+                    $options: 'i',
+                },
+            })),
+        });
+    }
+    else if(searchTerm === '27') {
+        andConditions.push({
+            $or: productSearchableFields.map(field => ({
+                [field]: {
+                    $regex: 'In Stock',
                     $options: 'i',
                 },
             })),
