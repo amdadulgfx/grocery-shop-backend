@@ -6,6 +6,8 @@ export const productFilterableFields = [
     'description',
     'type',
     'price',
+    'maxPrice',
+    'minPrice',
     'category',
     'subcategory',
     'review',

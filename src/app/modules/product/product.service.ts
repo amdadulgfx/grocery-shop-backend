@@ -193,14 +193,27 @@ const getSearchProduct = async (filters: IProductsFilters, paginationOptions: IP
         // console.log(filtersData)
 
         Object.entries(filtersData).map(([field, value]) => {
-            if (field == 'price' || field == 'discount' || field === 'countInStock') {
+            if ( field == 'discount' || field === 'countInStock') {
                 andConditions.push({
                     $and: [{
                         [field]: {
+
                             $gte: Number(value)
                         },
                     }]
                 })
+               
+            }
+            if (field == 'minPrice' || field == 'maxPrice') {
+                andConditions.push({
+                    $and: [{
+                        ['price']: {
+                            $lte: Number(field === 'maxPrice' && value),
+                            $gte: Number(2)
+                        },
+                    }]
+                })
+                console.log(value)
             }
             else if (field == 'category') {
                 andConditions.push({
@@ -218,18 +231,13 @@ const getSearchProduct = async (filters: IProductsFilters, paginationOptions: IP
 
     }
 
-
-
-
-
-
     // Dynamic  Sort needs  field to  do sorting
     const sortConditions: { [key: string]: SortOrder } = {};
     if (sortBy && sortOrder) {
         sortConditions[sortBy] = sortOrder;
     }
     console.log(andConditions[0].$or[3])
-    console.log(andConditions[1])
+    // console.log(andConditions[1]?.$and)
     // andConditions[1].$or?.map((item) => console.log(item))
 
     const whereConditions =
